@@ -26,7 +26,6 @@ public class CameraController : MonoBehaviour
     [Header("ROTATION")]
     public Transform platformsParent;
     [Range(0, 1)] public float rotationSmoothness;
-    int index;
     void FixedUpdate()
     {
         Follow();
@@ -37,21 +36,6 @@ public class CameraController : MonoBehaviour
         float posZ = target.position.z + delay;
         Vector3 smoothedPosition = Vector3.Lerp(transform.position, new Vector3(posX, posY, posZ), smoothness);
         transform.position = smoothedPosition;
-    }
-
-    void Update()
-    {
-       // Rotate();
-    }
-
-    void Rotate()
-    {
-        if (Input.GetMouseButtonDown(0))
-            index++;
-
-        Transform childObj = platformsParent.GetChild(index);
-        Quaternion objRotation = childObj.transform.localRotation;
-        transform.rotation = Quaternion.Lerp(transform.rotation, objRotation, rotationSmoothness);
     }
 
 }

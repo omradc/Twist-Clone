@@ -4,29 +4,31 @@ using UnityEngine;
 
 public class PlatformController : MonoBehaviour
 {
-    [Range(0, 1)] public float smoothness;
-    public int index;
-    Platform platform;
-    // Start is called before the first frame update
-    void Start()
+    public static PlatformController Instance;
+    private void Awake()
     {
-        platform = Platform.Instance;
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(Instance);
     }
 
-    // Update is called once per frame
+    [Range(0, 1)] public float smoothness;
+    int childIndex;
+
     void Update()
     {
         Move();
     }
-
     void Move()
     {
         if (Input.GetMouseButtonDown(0))
-            index++;
+        {
+            childIndex++;
+        }
 
-        Transform childObj = transform.GetChild(index);
+        Transform childObj = transform.GetChild(childIndex);
         Quaternion objRotation = Quaternion.Inverse(childObj.transform.localRotation);
         transform.rotation = Quaternion.Lerp(transform.rotation, objRotation, smoothness);
     }
-
 }
