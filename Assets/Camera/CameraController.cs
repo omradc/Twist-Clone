@@ -26,8 +26,17 @@ public class CameraController : MonoBehaviour
     [Header("ROTATION")]
     public Transform platformsParent;
     [Range(0, 1)] public float rotationSmoothness;
+
+    PlayerComtroller playerController;
+    private void Start()
+    {
+        playerController = PlayerComtroller.Instance;
+    }
     void FixedUpdate()
     {
+        if (playerController.gameOver)
+            return;
+
         Follow();
     }
 

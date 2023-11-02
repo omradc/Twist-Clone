@@ -29,15 +29,17 @@ public class Platform : MonoBehaviour
     int leftOrRight;
     GameObject currentPlatform;
     GameObject previousPlatform;
+    PlayerComtroller playerComtroller;
     void Start()
     {
+        playerComtroller = PlayerComtroller.Instance;
         StartCoroutine("FirstPlatforms");
     }
 
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !playerComtroller.gameOver)
             CreatePlatform();
     }
 
@@ -65,7 +67,7 @@ public class Platform : MonoBehaviour
 
         //scale  
         randomScaleZ = Random.Range(platformMinScale, platformMaxScale);
-        currentPlatform.transform.localScale = new Vector3(1, 0.5f, randomScaleZ);
+        currentPlatform.transform.localScale = new Vector3(platformPrefab.transform.localScale.x, platformPrefab.transform.localScale.y, randomScaleZ);
 
         //pos
         posZ += currentPlatform.transform.localScale.z / 2 + previousPlatform.transform.localScale.z / 2 + distance;

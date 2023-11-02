@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlatformController : MonoBehaviour
 {
+    #region Singelton
     public static PlatformController Instance;
     private void Awake()
     {
@@ -12,12 +13,21 @@ public class PlatformController : MonoBehaviour
         else
             Destroy(Instance);
     }
+    #endregion
 
     [Range(0, 1)] public float smoothness;
     int childIndex;
-
+    PlayerComtroller playerComtroller;
+    private void Start()
+    {
+        playerComtroller = PlayerComtroller.Instance;
+        childIndex = -1;
+    }
     void Update()
     {
+        if (playerComtroller.gameOver)
+            return;
+            
         Move();
     }
     void Move()
@@ -27,8 +37,12 @@ public class PlatformController : MonoBehaviour
             childIndex++;
         }
 
-        Transform childObj = transform.GetChild(childIndex);
-        Quaternion objRotation = Quaternion.Inverse(childObj.transform.localRotation);
-        transform.rotation = Quaternion.Lerp(transform.rotation, objRotation, smoothness);
+        if (childIndex >= 0)
+        {
+            Transform childObj = transform.GetChild(childIndex);
+            Quaternion objRotation = Quaternion.Inverse(childObj.transform.localRotation);
+            transform.rotation = Quaternion.Lerp(transform.rotation, objRotation, smoothness);
+        }
+
     }
 }
